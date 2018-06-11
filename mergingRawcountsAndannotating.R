@@ -29,3 +29,4 @@ my_genes_ann=ensembl_df[match(my_genes, ensembl_df$ensembl_gene_id_version),]
 
 
 
+my_genes_ann2=ensembl_df[match(test,ensembl_df$ensembl_gene_id),]
