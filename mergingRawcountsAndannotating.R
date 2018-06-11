@@ -18,35 +18,14 @@ mergeddata[,2]<-NULL
 mergeddata[,3]<-NULL
 
 #######ANNOTATING
-source("https://bioconductor.org/biocLite.R")
-biocLite("annotate")
-biocLite("AnnotationDbi")
-biocLite("org.Mm.eg.db")
-
-geneLists<-mergeddata
-
+source("http://www.bioconductor.org/biocLite.R")
 biocLite("biomaRt")
-library(biomaRt)
-listEnsembl()
-ensembl = useEnsembl(biomart="ensembl")
-head(listDatasets(ensembl))
-library(biomaRt)
-ensembl = useEnsembl(biomart="ensembl", dataset="mmusculus_gene_ensembl")
+require(biomaRt)
+ensMart<-useMart("ensembl")
+ensembl_ms_mart<-useMart(biomart="ensembl", dataset="mmusculus_gene_ensembl")
+ensembl_df<-getBM(attributes = c("ensembl_gene_id", "ensembl_gene_id_version", "mgi_symbol","chromosome_name",'strand','transcript_start','transcript_end'), mart = ensembl_ms_mart)
+my_genes=mergeddata[,1]
+my_genes_ann=ensembl_df[match(my_genes, ensembl_df$ensembl_gene_id_version),]
 
-listDatasets() 
 
-library(biomaRt)
 
-mouse = useMart("ensembl", dataset = "mmusculus_gene_ensembl")
-
-listFilters(mouse)
-
-getBM( attributes=c("ensembl_gene_id", "mgi_symbol"), filters= "mgi_symbol", mart=mouse)
-res <- getBM(attributes = c("ensembl_gene_id", "mgi_symbol","chromosome_name",'strand','transcript_start','transcript_end'), mart = mouse)
-
-annot.table <- data.frame("geneLists")
-gene_ids <- character()
-genes.table = NULL 
-mart <- useMart("ensembl") 
-mart <- useDataset("mmusculus_gene_ensembl", mart = mart) 
-genes.table <- getBM(filters= "ensembl_gene_id", attributes= c("ensembl_gene_id", "description"), values= mergeddata[,1], mart= mart) 
