@@ -23,7 +23,7 @@ biocLite("biomaRt")
 require(biomaRt)
 ensMart<-useMart("ensembl")
 ensembl_ms_mart<-useMart(biomart="ensembl", dataset="mmusculus_gene_ensembl")
-ensembl_df<-getBM(attributes = c("ensembl_gene_id", "ensembl_gene_id_version", "mgi_symbol","chromosome_name",'strand','transcript_start','transcript_end'), mart = ensembl_ms_mart)
+ensembl_df<-getBM(attributes = c("ensembl_gene_id", "ensembl_gene_id_version", "mgi_symbol","chromosome_name",'strand','transcript_start','transcript_end','transcript_length'), mart = ensembl_ms_mart)
 my_genes=mergeddata[,1]
 ##my_genes_ann=ensembl_df[match(my_genes, ensembl_df$ensembl_gene_id_version),] ## WRONG
 test<-vector()
