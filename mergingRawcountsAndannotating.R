@@ -25,8 +25,9 @@ ensMart<-useMart("ensembl")
 ensembl_ms_mart<-useMart(biomart="ensembl", dataset="mmusculus_gene_ensembl")
 ensembl_df<-getBM(attributes = c("ensembl_gene_id", "ensembl_gene_id_version", "mgi_symbol","chromosome_name",'strand','transcript_start','transcript_end'), mart = ensembl_ms_mart)
 my_genes=mergeddata[,1]
-my_genes_ann=ensembl_df[match(my_genes, ensembl_df$ensembl_gene_id_version),]
-
-
-
+##my_genes_ann=ensembl_df[match(my_genes, ensembl_df$ensembl_gene_id_version),] ## WRONG
+test<-vector()
+for (i in 1:nrow(data1)){test[i]<-strtrim(data1[i,1],18)}
 my_genes_ann2=ensembl_df[match(test,ensembl_df$ensembl_gene_id),]
+write.csv(mergeddata, file="mergeddata.csv")
+write.csv(my_genes_ann2, file="my_genes_ann2.csv")
